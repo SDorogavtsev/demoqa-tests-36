@@ -19,33 +19,33 @@ public class PracticeForm {
         Configuration.pageLoadStrategy = "eager";
 
     }
-    @AfterAll
-    static void tearDown() {
-        CloseWebDriver();
-    }
 
-    private static void CloseWebDriver() {
-    }
 
 
     @Test
     void fillAutoFormTest() {
         open("/automation-practice-form");
+        $(".practice-form-wrapper").shouldHave(text("Student Registration Form"));
         executeJavaScript("$('#fixedban').remove()");
         executeJavaScript("$('footer').remove()");
+
 
         // field NAME
         $("#firstName").setValue("Sergei");
         $("#lastName").setValue("Dorogavtsev");
 
+
         // field EMAIL
         $("#userEmail").setValue("kubus84@mail.ru");
 
+
         //GENDER selection
-        $("#genderWrapper").$(byText("Male")).click();
+        $("#genterWrapper").$(byText("Male")).click();
+
 
         // field MOBILE
         $("#userNumber").setValue("89131234567");
+
 
         // field DateOfBirth
         $("#dateOfBirthInput").click();
@@ -53,25 +53,43 @@ public class PracticeForm {
         $(".react-datepicker__month-select").selectOption("September");
         $(".react-datepicker__day--029").click();
 
+
         // field SUBJECTS
         $("#subjectsInput").setValue("English").pressEnter();
+
 
         // HOBBIES selection
         $("#hobbiesWrapper").$(byText("Music")).click();
 
+
         // field PICTURE
-        $("#uploadPicture").uploadFromClasspath(".jpg");
+        $("#uploadPicture").uploadFromClasspath("sibir.jpg");
 
 
-
-
+        // field CurrentAddress
         $("#currentAddress").setValue("Russia,Nsk").pressEnter();
-        $("#permanentAddress").setValue("Russia,Nsk").pressEnter();
-        $("#submit").click();
 
-        $("#output #name").shouldHave(text("Sergei"));
-        $("#output #email").shouldHave(text("kubus84@mail.ru"));
-        $("#output #currentAddress").shouldHave(text("Russia,Nsk"));
-        $("#output #permanentAddress").shouldHave(text("Russia,Nsk"));
+
+        // field State and City
+        $("#react-select-3-input").setValue("NCR").pressEnter();
+        $("#react-select-4-input").setValue("Delhi").pressEnter();
+
+
+        // press to submit
+        $("#submit").pressEnter();
+
+        // check
+        $(".table-responsive").shouldHave(text("Sergei Dorogavtsev"));
+        $(".table-responsive").shouldHave(text("kubus84@mail.ru"));
+        $(".table-responsive").shouldHave(text("Male"));
+        $(".table-responsive").shouldHave(text("89131234567"));
+        $(".table-responsive").shouldHave(text("29 September,1984"));
+        $(".table-responsive").shouldHave(text("English"));
+        $(".table-responsive").shouldHave(text("Music"));
+        $(".table-responsive").shouldHave(text("sibir.jpg"));
+        $(".table-responsive").shouldHave(text("Russia,Nsk"));
+        $(".table-responsive").shouldHave(text("NCR Delhi"));
+
+
     }
 }
